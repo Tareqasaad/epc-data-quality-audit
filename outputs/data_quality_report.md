@@ -1,5 +1,9 @@
 # EPC Data Quality Report: Camden, London
 
+## About this data
+
+An EPC, an Energy Performance Certificate, is a rating every home in England and Wales needs when it is sold, rented out, or newly built. It scores a home's energy efficiency from A (best) to G (worst), based on things like insulation and heating. This report looks at 102,185 domestic EPCs for Camden, London, covering January 2012 to June 2026, taken from the government's own EPC register. In practice, this data is used to check whether rented homes meet the legal energy standard, to track how efficient the housing stock is, and to plan for net zero.
+
 This report takes the findings from my profiling notebook and ranks them by how serious they are, worst first.
 
 ## Severity levels
@@ -7,11 +11,23 @@ This report takes the findings from my profiling notebook and ranks them by how 
 - **Critical**: leads to wrong decisions or makes the data unusable for its main purpose.
 - **High**: badly distorts counts or analysis; every user has to work around it.
 - **Medium**: impossible or contradictory values that slip through; limited in number but wrong.
-- **Low**: cosmetic or expected; little or no action needed.
+- **Low**: expected; little or no action needed.
 
 ## What the register does well
 
 Before the problems, it is worth saying what works, because it matters for the conclusion. Certificate numbers are unique, with no duplicates across all 102,185 records. No certificate is dated in the future. And the energy rating letter matches its numeric score in 100% of records, every single one. This last point is important: it proves the register can enforce a rule perfectly when it has one. So the problems in this report are not bad luck or unavoidable mess. They are the places where no rule was applied.
+
+## Summary of findings
+
+| # | Finding | Severity |
+|---|---------|----------|
+| 1 | Private and social rentals can no longer be told apart | Critical |
+| 2 | Certificates are not the same as properties | High |
+| 3 | No way to tell if a record is still current | High |
+| 4 | The same assessment gets lodged more than once on the same day | Medium |
+| 5 | 1,100 certificates were lodged before the inspection happened | Medium |
+| 6 | Impossible values pass straight through with no checks | Medium |
+| 7 | Category labels drift over time | Low |
 
 ## Findings, worst first
 
@@ -74,6 +90,25 @@ Some category fields are not kept to a fixed list, so the same thing is written 
 ## The pattern behind all of this
 
 Across every finding, the same thing is true. Where the register enforces a rule, it holds without exception: certificate numbers are always unique, and the rating letter always matches its score. Where it does not enforce a rule, impossible and contradictory records get in and stay, unflagged, for years. A 3 m2 house, a certificate filed before its own inspection, a rental that can no longer be identified as private or social: none of these are unavoidable noise. Each one exists in a specific place where a check was missing. The cost lands on whoever uses this data next, for enforcement, research, or net zero planning, and it is a cost that better validation at the source would remove.
+
+## Recommendations
+
+**For the register team, in priority order:**
+
+1. Bring back the private and social rental labels for records after 2012. This is the highest-value fix, since it unblocks the register's main legal purpose.
+2. Make the property ID (UPRN) required, and split it down to individual flats, not whole buildings.
+3. Add a status field so a record can be marked current, replaced, or demolished.
+4. Add basic sanity checks at the point of entry: floor area within a believable range, emissions never negative without a renewable source recorded, and inspection date always before lodgement date.
+5. Block or clean up same-day repeat lodgements of the same assessment.
+6. Fix or flag the 1,100 legacy records with impossible dates.
+7. Lock category fields like transaction type to a fixed list, so the same value cannot be typed two different ways.
+
+**For anyone using this data right now, before those fixes happen:**
+
+- When removing duplicate certificates, keep the latest one per property, but never merge records using UPRN alone, since one UPRN can cover many flats.
+- Treat a certificate count as a certificate count, not a home count.
+- Filter out impossible floor areas and negative emissions before doing any analysis.
+- Do not trust the private/social rental label after 2012.
 
 ---
 
