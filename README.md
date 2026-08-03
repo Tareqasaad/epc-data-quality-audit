@@ -84,6 +84,8 @@ To reproduce:
 2. Save the certificates file as `data/raw/camden_certificates.csv`
 3. Run the notebooks in order
 
+The code in this repository is MIT licensed. The EPC data has its own licence and remains with the publisher.
+
 Requires Python 3, pandas, numpy and matplotlib.
 
 ## Author
